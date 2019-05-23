@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>toDo Pure JavaScript</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web">
+    <link rel="shortcut icon" href="https://garevna.github.io/js-samples/images/a-level-ico.png" type="image/x-icon">
+    <style>  
+         body{
+                padding: 0;
+                margin: 0;
+                background-color: rgb(216, 209, 216);
+                font-family: 'Titillium Web', sans-serif;
+            }
+        @font-face {
+        font-family: 'FontAwesome';
+        src: url('../fonts/fontawesome-webfont.eot?v=4.7.0');
+        src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+        }
+        .fa-trash-o:before {
+                content: "\f014";
+            }
+    </style>
+</head>
+<body>
+    <template id ="authorisation">
+        <div class="login">
+            <div class="flip">
+                <div class="form-signup">
+                <fieldset>
+                    <legend>Registration</legend>
+                    <p class="login-msg"></p>
+                    <form id="reg" class="reg">  
+                        <input type="text" name = 'username' placeholder="Enter userName..." required >  
+                        <input type="password" name ='password' placeholder="Enter your password..." required>
+                        <input type="email" name = 'email'placeholder="Enter your email..." required> 
+                    </form>
+                    <button class="send sign-up">Registration</button>
+                    <a href="#" class="flipper-reg">Allready registred? Sign in!</a>
+                </fieldset>      
+                </div>
+                <div class="form-login">
+                <fieldset>
+                    <legend>Login</legend>
+                    <p class="auth-msg"></p>
+                    <form id="auth" class ="auth" >
+                        <input type="email" name ="email" placeholder="Enter your email..." required >
+                        <input type="password" name = "password"placeholder="Enter your password..." required>        
+                </form>
+                <button class="send sign-in">Login</button>
+                <a href="#" class="flipper-log">Haven't account? Sign up!</a>
+                </fieldset>
+                </div>
+            </div>
+        </div>
+        <style>
+        .login {
+                border-radius: 5px; 
+                margin: 120px auto; 
+                width: 300px; 
+                perspective: 1000; 
+               }
+             .login a { 
+               color: #888; 
+               text-decoration: none; 
+             }
+             .login a:hover { 
+               color: #369; 
+             }
+             .login p { 
+               margin: 0;
+             }
+             .login fieldset {	
+               display: block; 
+               margin: 0; 
+               padding: 20px; 
+               background: #fff; 
+               border: 1px solid rgba(0,0,0,.3); 
+               border-radius: 0 0 5px 5px; 
+               box-shadow: 0 1px 2px #aaa; 
+             }
+             .login input { 
+               width: 238px; 
+               margin: 0; 
+               padding: 12px 10px; 
+               border: 1px solid #ccc; 
+               outline: none; 
+               font-size: 14px; }
+             .login input:focus { 
+               background: #fafafa; 
+               box-shadow: inset 0 1px 7px #ddd;
+             }
+             .login input[type="email"] { 
+               border-radius: 3px 3px 0 0; 
+             }
+             .login input[type="password"] {	
+               border-width: 0 1px; 
+               border-radius: 0; 
+             }
+             .login input[type="text"] {	
+               border-radius: 0 0 3px 3px; 
+             }
+             .login button.send { 
+               width: 260px; 
+               padding: 12px 20px; 
+               margin: 15px 0; 
+               border: 1px solid #C1711B; 
+               border-radius: 3px; 
+               color: #111; 
+               font-size: 1.3em; 
+               font-weight: bold; 
+               text-shadow: 1px 1px 1px rgba(255,255,255,.5); 
+               cursor: pointer;
+               background-color: #FFB83A; 
+               box-shadow: inset 0 1px 1px rgba(255,255,0,.6); 
+               background-image: linear-gradient(rgba(255,207,92,.7), rgba(223,156,38,.8));
+               }
+             .login button.send:hover {	
+               background-color: #F5FF00; 
+             }
+             .login button.send:active {
+                padding: 13px 20px 11px; 
+                text-shadow: -1px -1px 1px rgba(255,255,255,.6); 
+                box-shadow: inset 0 1px 4px rgba(0,0,0,.2); 
+               }
+             .flip { 
+               position: relative; 
+               transition: 0.6s; 
+               transform-style: preserve-3d; 
+             }
+             .form-login,
+             .form-signup { 
+               position: absolute; 
+               top: 0; 
+               left: 0; 
+               backface-visibility: hidden; 
+             }
+             .form-signup { 
+               z-index: 2; 
+             }
+             .form-login { 
+               transform: rotateY(180deg); 
+             }
+             .flip.flipped { 
+               transform: rotateY(-180deg); 
+             }
+             
+             .login input.login-err,
+             .login input.login-err:focus { 
+               color: #C4550B; 
+               background-color: #FFEDD7; 
+               border-color: #EB975F; 
+             }
+             .login input.login-err::-webkit-input-placeholder { 
+               color: #C4550B; 
+             }
+             .login input.login-ok,
+             .login input.login-ok:focus { 
+               color: #4E831F; 
+               background-color: #EBFDDC; 
+               border-color: #9FCC41; 
+             }
+             .login input.login-ok::-webkit-input-placeholder { 
+               color: #4E831F; 
+             }
+             
+             .login p.login-msg { 
+               margin: 0 0 5px; 
+               font-size: 13px; 
+               font-weight: bold; 
+               color: #C4550B; 
+              }
+               .login p.auth-msg { 
+               margin: 0 0 5px; 
+               font-size: 13px; 
+               font-weight: bold; 
+               color: #C4550B; 
+               }
+             </style>
+    </template>
+    <template id="do">
+            <div class="container">
+                <div class="header">
+                    <div class="exit">
+                      <i class="fa fa-sign-out"></i>
+                    </div>
+                    <div class="save">
+                        <i class="fa fa-save"></i>
+                    </div>
+                    <div class="current-date"></div>
+                </div>
+                <div class="content-todo">
+                    <ul id="list">
+                    </ul>
+                </div>
+                <div class="add-to-do">
+                    <i class="fa fa-plus-circle"></i>
+                </div>
+            </div>
+        <style>
+            @font-face {
+                font-family: 'FontAwesome';
+                src: url('../fonts/fontawesome-webfont.eot?v=4.7.0');
+                src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            .fa {
+                display: inline-block;
+                font: normal normal normal 14px/1 FontAwesome;
+                font-size: inherit;
+                text-rendering: auto;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            .fa-sign-out:before {
+               content: "\f08b";
+            }
+            .fa-refresh:before {
+                content: "\f021";
+            }
+            .fa-circle-thin:before {
+                content: "\f1db";
+            }
+            .fa-plus-circle:before {
+                content: "\f055";
+            }
+            .fa-save:before,
+            .fa-floppy-o:before {
+              content: "\f0c7";
+            }
+ 
+            /* ------------ container ------------ */
+            .container{
+                padding:10px;
+                width:380px;
+                margin:0 auto;
+            }
+
+            /* ------------ header ------------ */
+            .header{
+                width: 380px;
+                height:200px;
+                background-image: url('../img/bg2.jpg');
+                background-size: 100% 200%;
+                background-repeat: no-repeat;
+                border-radius: 15px 15px 0 0;
+                position: relative;
+            }
+            .save{
+                width : 30px;
+                height: 30px;
+                position: absolute;
+                right:60px;
+                top: 20px;
+            }
+            .save i{
+                font-size: 30px;
+                color: #FFF;
+            }
+            .save i:hover{
+                cursor: pointer;
+                text-shadow: 1px 3px 5px #000;
+            }
+            .exit{
+                width : 30px;
+                height: 30px;
+                position: absolute;
+                right:20px;
+                top: 20px;
+            }
+            .exit i{
+              font-size: 30px;
+              color: #FFF;
+            }
+            .exit i:hover{
+                cursor: pointer;
+                text-shadow: 1px 3px 5px #000;
+            }
+            .current-date{
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                color: #FFF;
+                font-size: 25px;
+                font-family: 'Titillium Web', sans-serif;
+            }
+            /* ------------ content ------------ */
+            .content-todo{
+                width:380px;
+                height: 350px;
+                max-height:350px;
+                background-color: #FFF;
+                overflow: auto;
+            }
+            .content::-webkit-scrollbar { 
+                display: none; 
+            }
+            .content-to-do ul{
+                padding:0;
+                margin:0;
+            }
+            .item{
+                width:300px;
+                height: 45px;
+                min-height: 45px;
+                position: relative;
+                border-top: 1px solid rgba(0,0,0,0.1);
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .fa-trash-o{
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 5px;
+                right: 0px;
+                width: 20px;
+                height: 20px;
+                background-image: url('img/korzina1.png');
+                background-size: contain;
+            }
+            .fa-trash-o:hover{
+                cursor: pointer;
+                background-image: url('img/korzina.png');
+                background-size: contain;
+            }
+            /* ------------ add item ------------ */
+            .add-to-do{
+                position: relative;
+                width: 360px;
+                height:40px;
+                background-color: #FFF;
+                padding: 10px;
+            }
+            .add-to-do i{
+                position: absolute;
+                font-size: 40px;
+                color: #4162f6;
+                right: 20px;
+            }
+            .add-to-do i:hover{
+                cursor: pointer;
+                text-shadow: 1px 3px 5px #000;
+            }
+        </style>
+    </template>
+  <script src="js/start.js"></script>
+  <script src="js/authorisationComponent.js"></script>
+  <script src="js/toDoComponent.js"></script>
+  <script src="js/toDoElement.js"></script>
+  <script src="https://cdn.rawgit.com/chrisveness/crypto/4e93a4d/sha256.js"></script>
+</body>
+</html>
